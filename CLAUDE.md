@@ -8,13 +8,14 @@ GitHub template repository for creating new services on the Javabin platform.
 |------|---------|
 | `app.yaml` | Platform service configuration — compute, routing, resources, auth |
 | `Dockerfile` | Multi-stage build (Java/Temurin by default, adapt for your runtime) |
+| `.github/workflows/deploy.yml` | CI entrypoint — calls `javabin.yml` reusable workflow |
 | `README.md` | Starter README with getting-started steps |
 
 ## How to Use
 
 1. Click **"Use this template"** on GitHub to create a new repo under `javaBin/`
 2. Edit `app.yaml` — set your service name, team, compute settings, routing, and any resources
-3. Register your app by opening a PR to [javaBin/registry](https://github.com/javaBin/registry) with `apps/{name}.yaml`
+3. Ensure your team is registered in [javaBin/registry](https://github.com/javaBin/registry) (`teams/{name}.yaml`) and add the repo to your GitHub team
 4. Push to `main` — the platform CI builds, plans, reviews, and deploys automatically
 
 ## app.yaml Fields
@@ -36,10 +37,10 @@ The default Dockerfile uses `eclipse-temurin:21` for a Java/Maven project. Repla
 
 ## CI
 
-This template does not include a workflow file. The platform's reusable workflow is called from `javaBin/platform/.github/workflows/javabin.yml`. Your repo just needs to be registered — CI is automatic.
+This template includes `.github/workflows/deploy.yml` which calls the platform's reusable workflow `javaBin/platform/.github/workflows/javabin.yml@main`. No additional workflow config needed.
 
 ## Related
 
 - [javaBin/platform](https://github.com/javaBin/platform) — shared infrastructure and reusable modules
-- [javaBin/registry](https://github.com/javaBin/registry) — app and team registration
-- [javaBin/javabin-cli](https://github.com/javaBin/javabin-cli) — `javabin register` automates registration
+- [javaBin/registry](https://github.com/javaBin/registry) — team registration
+- [javaBin/javabin-cli](https://github.com/javaBin/javabin-cli) — `javabin register` automates team registration

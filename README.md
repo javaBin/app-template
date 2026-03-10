@@ -5,7 +5,7 @@ A Javabin platform service.
 ## Getting Started
 
 1. **Create from template**: Click "Use this template" on GitHub
-2. **Register your app**: Open a PR to [javaBin/registry](https://github.com/javaBin/registry) adding `apps/your-service.yaml`
+2. **Register your team**: If not already registered, open a PR to [javaBin/registry](https://github.com/javaBin/registry) adding `teams/your-team.yaml`, then add this repo to your GitHub team
 3. **Customize `app.yaml`**: Set your service name, team, compute, and routing
 4. **Push to main**: The platform CI pipeline builds, plans, reviews, and deploys automatically
 
