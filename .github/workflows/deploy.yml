@@ -1,9 +1,17 @@
 name: Deploy
 on:
   push:
-    branches: [main, master]
+    branches: [main]
   pull_request:
+  workflow_dispatch:
+
+permissions:
+  id-token: write       # AWS access via OIDC
+  contents: write       # platform commits generated Terraform to the branch
+  pull-requests: write  # plan + review comment on PRs
+
+# No secrets needed — see
+# https://github.com/javaBin/platform/blob/main/docs/reusable-workflows.md
 jobs:
   javabin:
     uses: javaBin/platform/.github/workflows/javabin.yml@main
-    secrets: inherit

@@ -1,10 +1,10 @@
 # app.yaml — Javabin Platform Service Configuration
 # Full reference: https://github.com/javaBin/platform/blob/main/docs/app-yaml-reference.md
 
-# Service name (required) — lowercase + hyphens, max 20 chars
+# Service name — lowercase letters, digits, hyphens; max 20 chars (default: repo name)
 name: my-service
 
-# Owning team (required) — must match a team in javaBin/registry
+# Owning team (required) — a team in javaBin/registry; this repo must be in its GitHub team
 team: my-team
 
 # Container compute settings (optional, defaults shown)
@@ -36,12 +36,11 @@ routing:
 #     - name: jobs
 #       env: JOBS_QUEUE_URL
 
-# Cognito auth (optional) — internal, external, both, or none
+# Cognito auth (optional) — internal or external. Injects COGNITO_* env vars.
 # auth: internal
 
 # Custom environment variables
 # environment:
 #   LOG_LEVEL: info
 
-# Monthly budget alert in NOK (default: 1000)
-# budget_alert_nok: 500
+# Unknown fields fail the pipeline. Budgets are set per team in javaBin/registry.

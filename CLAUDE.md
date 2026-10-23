@@ -15,7 +15,7 @@ GitHub template repository for creating new services on the Javabin platform.
 
 1. Click **"Use this template"** on GitHub to create a new repo under `javaBin/`
 2. Edit `app.yaml` — set your service name, team, compute settings, routing, and any resources
-3. Ensure your team is registered in [javaBin/registry](https://github.com/javaBin/registry) (`teams/{name}.yaml`) and add the repo to your GitHub team
+3. Ensure your team is registered in [javaBin/registry](https://github.com/javaBin/registry) (`teams/{name}.yaml`) and add the repo to the GitHub team named in `app.yaml` `team:`
 4. Push to `main` — the platform CI builds, plans, reviews, and deploys automatically
 
 ## app.yaml Fields
@@ -24,10 +24,11 @@ GitHub template repository for creating new services on the Javabin platform.
 - `team` — owning team, must exist in the registry (required)
 - `compute` — CPU, memory, port, desired count, health check path
 - `routing` — hostname under `javazone.no` and ALB priority
-- `resources` — S3 buckets, DynamoDB tables, Secrets Manager secrets, SQS queues
-- `auth` — Cognito integration: `internal`, `external`, `both`, or `none`
+- `resources` — S3 buckets, DynamoDB tables / RDS PostgreSQL, SSM secrets, SQS queues
+- `auth` — Cognito integration: `internal`, `external`, or `none`
 - `environment` — custom environment variables
-- `budget_alert_nok` — monthly budget alert threshold in NOK
+
+Unknown fields fail the pipeline's `expand` step. Budgets are per team, set in the registry.
 
 Full reference: [app.yaml reference](https://github.com/javaBin/platform/blob/main/docs/app-yaml-reference.md)
 
@@ -37,7 +38,7 @@ The default Dockerfile uses `eclipse-temurin:21` for a Java/Maven project. Repla
 
 ## CI
 
-This template includes `.github/workflows/deploy.yml` which calls the platform's reusable workflow `javaBin/platform/.github/workflows/javabin.yml@main`. No additional workflow config needed.
+This template includes `.github/workflows/deploy.yml` which calls the platform's reusable workflow `javaBin/platform/.github/workflows/javabin.yml@main`. No secrets are needed; keep the `permissions:` block (`id-token: write`, `contents: write`, `pull-requests: write`).
 
 ## Related
 
