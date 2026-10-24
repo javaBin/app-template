@@ -14,4 +14,6 @@ permissions:
 # https://github.com/javaBin/platform/blob/main/docs/reusable-workflows.md
 jobs:
   javabin:
+    # The template repo itself never deploys; repos created from it do.
+    if: github.repository != 'javaBin/app-template'
     uses: javaBin/platform/.github/workflows/javabin.yml@main
