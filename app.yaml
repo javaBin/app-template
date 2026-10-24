@@ -1,21 +1,27 @@
 # app.yaml — Javabin Platform Service Configuration
 # Full reference: https://github.com/javaBin/platform/blob/main/docs/app-yaml-reference.md
+#
+# Validated strictly: unknown or misspelled fields fail the pipeline's `expand` step.
+# Budgets are not set here — they are per team (`budget_nok` in javaBin/registry teams/<team>.yaml).
 
-# Service name (required) — lowercase + hyphens, max 20 chars
+# Service name — starts with a letter; lowercase letters, digits, hyphens; max 20 chars (default: repo name)
 name: my-service
 
-# Owning team (required) — must match a team in javaBin/registry
-team: my-team
+# Owning team (required) — lowercase letters only, max 12 chars. Must exist in
+# javaBin/registry (teams/<team>.yaml), and this repo must be in that GitHub team.
+team: myteam
 
-# Container compute settings (optional, defaults shown)
+# Container compute settings (optional; omitted fields use platform defaults)
 compute:
   cpu: 512            # vCPU units (256, 512, 1024, 2048, 4096)
-  memory: 1024        # MB (512-30720, must match cpu)
-  port: 8080          # container port your app listens on
+  memory: 1024        # MB, must be a valid Fargate combination with cpu
+  port: 8080          # container port your app listens on (platform default: 8000)
   desired_count: 1    # number of running tasks
   health_check: /health
+  # user: "1000"                     # container user (default "1000", non-root)
+  # readonly_root_filesystem: true   # default true — only /tmp is writable; set false if the app writes elsewhere
 
-# ALB routing (required for web services)
+# ALB routing — omit for a worker with no load balancer
 routing:
   host: my-service.javazone.no   # DNS name, must be under javazone.no
   priority: 100                  # unique across all apps (1-50000)
@@ -26,22 +32,31 @@ routing:
 #     - name: data
 #       env: DATA_BUCKET
 #   databases:
-#     - name: cache
+#     - name: cache            # DynamoDB (default)
 #       hash_key: id
 #       env: CACHE_TABLE
-#   secrets:
-#     - name: api-key
+#     - name: main             # RDS PostgreSQL
+#       engine: postgres
+#       env: DATABASE_URL
+#   secrets:                   # created as PLACEHOLDER; set the value after the first deploy:
+#     - name: api-key          #   javabin aws setup && javabin secret set api-key
 #       env: API_KEY
 #   queues:
 #     - name: jobs
 #       env: JOBS_QUEUE_URL
 
-# Cognito auth (optional) — internal, external, both, or none
-# auth: internal
+# Cognito auth (optional). Shorthand: `auth: internal` (Javabin heroes) or `auth: external` (public users).
+# auth:
+#   pool: internal
+#   client: confidential       # confidential (server-side login, id + secret) | public (browser PKCE, id only) | none (API that only verifies tokens)
+#   callback_urls:             # default: https://<routing.host>/ and /auth/callback
+#     - https://my-service.javazone.no/auth/callback
+#     - http://localhost:8080/auth/callback   # localhost allowed for local dev
+#   groups:                    # only members of these registry groups can sign in
+#     - team-myteam
+#   env:                       # also inject values under your own names
+#     COGNITO_CLIENT_ID: OIDC_CLIENT_ID
 
 # Custom environment variables
 # environment:
 #   LOG_LEVEL: info
-
-# Monthly budget alert in NOK (default: 1000)
-# budget_alert_nok: 500
