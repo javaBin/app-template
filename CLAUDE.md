@@ -24,7 +24,7 @@ GitHub template repository for creating new services on the Javabin platform.
 - `name` — service name (required, lowercase + hyphens, max 20 chars)
 - `team` — owning team, lowercase letters only (max 12), must exist in the registry (required)
 - `compute` — CPU, memory, port, desired count, health check path, `user` (default `"1000"`), `readonly_root_filesystem` (default `true`; only `/tmp` writable)
-- `routing` — hostname under `javazone.no` and ALB priority
+- `routing` — hostname one label under `javazone.no`, `java.no` or `javabin.no`, and ALB priority
 - `resources` — S3 buckets, DynamoDB tables / RDS PostgreSQL, SSM secrets (created as `PLACEHOLDER`, set with `javabin secret set`), SQS queues
 - `auth` — Cognito: `internal`/`external` shorthand, or full form with `client: confidential|public|none`, `callback_urls` (https or `http://localhost`), `groups` (restricts sign-in), `env` (alias injected names)
 - `environment` — custom environment variables
