@@ -23,7 +23,7 @@ compute:
 
 # ALB routing — omit for a worker with no load balancer
 routing:
-  host: my-service.javazone.no   # DNS name, must be under javazone.no
+  host: my-service.javazone.no   # one label under javazone.no, java.no or javabin.no
   priority: 100                  # unique across all apps (1-50000)
 
 # Infrastructure resources (optional) — auto-wired to your container
