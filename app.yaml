@@ -17,14 +17,17 @@ compute:
   memory: 1024        # MB, must be a valid Fargate combination with cpu
   port: 8080          # container port your app listens on (platform default: 8000)
   desired_count: 1    # number of running tasks
-  health_check: /health
+  health_check: /actuator/health   # Spring Boot Actuator; change if your app serves another path
   # user: "1000"                     # container user (default "1000", non-root)
   # readonly_root_filesystem: true   # default true — only /tmp is writable; set false if the app writes elsewhere
 
 # ALB routing — omit for a worker with no load balancer
 routing:
   host: my-service.javazone.no   # one label under javazone.no, java.no or javabin.no
-  priority: 100                  # unique across all apps (1-50000)
+  # priority is left out on purpose: the platform derives a unique ALB listener
+  # rule priority for each app. A hard-coded value is shared by every repo made
+  # from this template and collides on deploy (PriorityInUse). Only set
+  # `priority:` (unique, 1-50000) if you must control rule evaluation order.
 
 # Infrastructure resources (optional) — auto-wired to your container
 # resources:
